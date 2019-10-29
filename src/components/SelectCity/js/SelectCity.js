@@ -3,10 +3,11 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import '../styles/SelectCity.scss';
-import { setCity } from '../../../actions/city';
+import { setCity, resetState } from '../../../actions/city';
+import { thunkRestaurants } from '../../../actions/restaurants';
 
 
- const SelectCity = (props) => {
+const SelectCity = () => {
     const dispatch = useDispatch(),
         history = useHistory();
     
@@ -17,9 +18,10 @@ import { setCity } from '../../../actions/city';
                 className='select-city__buttons'
                 onClick={(evt) => {
                     // may need useCallback here??
+                    dispatch(resetState());
                     dispatch(setCity(evt.target.innerText));
-                    console.log('city click');
-                    history.push('/list');
+                    dispatch(thunkRestaurants(evt.target.innerText));
+                    history.push(`/restaurant-list/${evt.target.innerText}`);
                 }}
             >
                 <button>Pune</button>
@@ -29,6 +31,6 @@ import { setCity } from '../../../actions/city';
             </div>
         </div>
     )
- };
+};
 
- export default SelectCity;
+export default SelectCity;

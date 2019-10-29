@@ -1,0 +1,68 @@
+@import '../../../mixins.scss';
+
+.restaurants {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__heading {
+      color: grey;
+  }
+
+  .restaurant {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    width: 700px; 
+    height: 232px;
+    padding: 16px;
+    display: flex;
+    overflow: hidden;
+    background-color: #F5F5F5;
+    @include clickable;
+
+    aside {
+      margin-left: 16px;
+    }
+  }
+}
+
+.restaurant-description {
+  &__name {
+    color: #2b2031;
+    font-family: Montserrat,sans-serif;
+    letter-spacing: 2px;
+  }
+
+  &__rating {
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 3px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .level-8 {
+    background: #3F7E00;
+    border-color: #3F7E00 !important;
+  }
+  
+  .level-6 {
+    background: #5BA829;
+    border-color: #5BA829 !important;
+  }
+  
+  .level-4 {
+    background: #9ACD32;
+    border-color: #9ACD32 !important;
+  }
+  
+  .level-2 {
+    background: #CDD614;
+    border-color: #CDD614 !important;
+  }
+  
+  .level-0 {
+    background: #FFBA00;
+    border-color: #FFBA00 !important;
+  }
+}
