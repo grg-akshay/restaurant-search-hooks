@@ -2,54 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import '../styles/Restaurants.scss';
 import { checkNonEmptyArray } from '../../../utils/array';
 import { thunkReviews } from '../../../actions/reviews';
-
-function RestaurantMeta (restaurant) {
-
-    /**
-     * provides className which helps in deciding color based on rating
-     * @param {*} rating 
-     */
-    function getColorClassName (rating) {
-        let result = 'restaurant-meta__rating ';
-
-        if (rating > 4.5) {
-        result += 'level-8';
-        }
-        else if (rating > 4.0) {
-        result += 'level-6';
-        }
-        else if (rating > 3.5) {
-        result += 'level-4';
-        }
-        else if (rating >= 3.0) {
-        result += 'level-2';
-        }
-
-        else {
-        result += 'level-0';
-        }
-        
-        return result;
-    }
-
-    if (!restaurant) {
-        return <></>;
-    }
-
-    return (
-        <div className='restaurant-meta'>
-            <h3 className='restaurant-meta__name'>{restaurant.name}</h3>
-            <span className={getColorClassName(restaurant.rating)}>{restaurant.rating}</span>
-            {
-                restaurant.votes && 
-                    <span className='restaurant-meta__votes'>({restaurant.votes} votes)</span>
-            }
-            {/* <span className='res_review' >| &nbsp;&nbsp;   {props.reviews_count} reviews</span>   */}
-        </div>
-    );
-}
+import { RestaurantMeta } from './RestaurantCard';
 
 function RestaurantDetail () {
     const dispatch = useDispatch(),
@@ -78,11 +34,26 @@ function RestaurantDetail () {
         <div>
             {
                 restaurant && 
-                    <RestaurantMeta
-                        name={restaurant.restaurant.name}
-                        rating={restaurant.restaurant.user_rating.aggregate_rating}
-                        votes={restaurant.restaurant.user_rating.votes} 
-                    />
+                    <section className='restaurant-detail'>
+                        <img 
+                            alt='thumb'
+                            className='restaurant-detail__image'
+                            src={restaurant.restaurant.thumb}
+                            onError={(e) => {
+                                // the handler is removed to prevent infinite callbacks 
+                                // when the fallback image, notAvailable.png fails
+                                e.target.onerror = null; 
+                                e.target.src = 'notAvailable.png';
+                            }}
+                        />
+                        <aside>
+                            <RestaurantMeta
+                                name={restaurant.restaurant.name}
+                                rating={restaurant.restaurant.user_rating.aggregate_rating}
+                                votes={restaurant.restaurant.user_rating.votes} 
+                            />
+                        </aside> 
+                    </section>
             }
             Reviews
             {

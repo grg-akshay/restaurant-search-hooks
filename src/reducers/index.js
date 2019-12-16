@@ -1,13 +1,16 @@
 const defaultState={
     city:'', 
     restaurants:[],
-    moreRestaurants: true,
+    totalRestaurantsInCity: null, 
     reviews: {},
     restaurantError: '',
     reviewError: ''
 };
 
-export const reducer = (state=defaultState, action) => {
+/**
+ * restaurant reducer function
+ */
+export function reducer (state = defaultState, action) {
     switch (action.type) {
         case 'SET_CITY':
             return {
@@ -18,7 +21,8 @@ export const reducer = (state=defaultState, action) => {
         case 'SET_RESTAURANTS':
             return {
                 ...state,
-                restaurants:  [...state.restaurants , ...action.restaurants]
+                restaurants:  [...state.restaurants, ...action.restaurants.restaurants],
+                totalRestaurantsInCity: action.restaurants.results_found
             };
 
         case 'SET_RESTAURANT_ERROR':
@@ -41,12 +45,6 @@ export const reducer = (state=defaultState, action) => {
         
         case 'RESET_STATE': 
             return defaultState;
-        
-        case 'UNSET_MORE_RESTAURANT':
-            return {
-                ...state,
-                moreRestaurants: false
-            };
 
         default:
             return state;

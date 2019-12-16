@@ -26,6 +26,16 @@
   }
 }
 
+.restaurant-detail {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+
+  &__image {
+    align-self: center;
+  }
+}
+
 .restaurant-description {
   &__name {
     color: #2b2031;

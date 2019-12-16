@@ -10,9 +10,9 @@ import RestaurantCard from './RestaurantCard';
 import '../styles/Restaurants.scss';
 import Loader from '../../Loader/js/Loader';
 
-const Restaurants = () => {
-    const { restaurants, restaurantError, moreRestaurants } = useSelector(
-            ({ restaurants, restaurantError, moreRestaurants }) => ({ restaurants, restaurantError, moreRestaurants })
+function Restaurants () {
+    const { restaurants, restaurantError, totalRestaurantsInCity } = useSelector(
+            ({ restaurants, restaurantError, totalRestaurantsInCity }) => ({ restaurants, restaurantError, totalRestaurantsInCity })
         ),
         [start, setStart] = useState(1),
         dispatch = useDispatch(),
@@ -22,7 +22,15 @@ const Restaurants = () => {
         const newStart = start + 5;
         setStart(newStart);
         dispatch(thunkRestaurants(city, newStart));    
-    };
+    }
+
+    function hasMoreRestaurants () {
+        if (!totalRestaurantsInCity || restaurants.length === 0) {
+            return false;
+        }
+
+        return totalRestaurantsInCity !== restaurants.length;
+    }
     
     if (restaurantError) {
         return <ErrorCard errorMessage={restaurantError} />;
@@ -37,7 +45,7 @@ const Restaurants = () => {
             <InfiniteScroll
                 dataLength={restaurants.length}
                 next={onScroll}
-                hasMore={moreRestaurants}
+                hasMore={hasMoreRestaurants()}
                 loader={<Loader />}
             >
                 {

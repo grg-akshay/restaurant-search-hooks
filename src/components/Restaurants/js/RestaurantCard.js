@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import '../styles/Restaurants.scss';
 
-function RestaurantMeta (restaurant) {
+export function RestaurantMeta (restaurant) {
 
     /**
      * provides className which helps in deciding color based on rating
@@ -24,19 +24,25 @@ function RestaurantMeta (restaurant) {
         else if (rating >= 3.0) {
         result += 'level-2';
         }
-
         else {
         result += 'level-0';
         }
         
         return result;
+    } 
+
+    if (!restaurant) {
+        return <></>;
     }
 
     return (
         <div className='restaurant-meta'>
             <h3 className='restaurant-meta__name'>{restaurant.name}</h3>
             <span className={getColorClassName(restaurant.rating)}>{restaurant.rating}</span>
-            <span className='restaurant-meta__votes'>({restaurant.votes} votes)</span>
+            {
+                restaurant.votes && 
+                    <span className='restaurant-meta__votes'>({restaurant.votes} votes)</span>
+            }
             {/* <span className='res_review' >| &nbsp;&nbsp;   {props.reviews_count} reviews</span>   */}
         </div>
     );
